@@ -39,6 +39,32 @@ An experimental comparison of classical AI search and constraint satisfaction al
 | **A\*** | 100.0% | 0.0029 | 0.0017 | 0.0620 | 63.00 |
 | **Hill Climbing** | 25.0% | 0.0259 | 0.0291 | 0.0550 | 3,481.57 |
 
+### Overall Success Rate (Text View)
+
+- **Backtracking:**       `██████████` 100.0%
+- **Backtracking + MRV:** `██████████` 100.0%
+- **A\*:**                `██████████` 100.0%
+- **Hill Climbing:**      `███░░░░░░░` 25.0%
+
+### Breakdown by Difficulty Tier (Easy / Medium / Hard)
+
+> *Note:* Exact per-tier metrics (`Easy`, `Medium`, and `Hard`—20 puzzles each) are generated when running the notebook cells. Fill in the values from your notebook output table below:
+
+| Difficulty Tier (Blanks) | Algorithm | Success Rate (%) | Mean Time (s) | Mean Nodes |
+|---|---|---|---|---:|
+| **Easy** (26–38 blanks) | Backtracking | — | — | — |
+| | Backtracking + MRV | — | — | — |
+| | A\* | — | — | — |
+| | Hill Climbing | — | — | — |
+| **Medium** (38–43 blanks) | Backtracking | — | — | — |
+| | Backtracking + MRV | — | — | — |
+| | A\* | — | — | — |
+| | Hill Climbing | — | — | — |
+| **Hard** (43–53 blanks) | Backtracking | — | — | — |
+| | Backtracking + MRV | — | — | — |
+| | A\* | — | — | — |
+| | Hill Climbing | — | — | — |
+
 ### Key Takeaways
 - **100% Reliability with Systematic Search & CSP:** Plain Backtracking, Backtracking + MRV, and A\* all solved every puzzle in the sample within milliseconds.
 - **Much Lower Search Effort with MRV and A\*:** Adding the **MRV** heuristic reduced average explored assignments from **722.67** to **50.92** (~14× fewer nodes) and cut mean runtime nearly in half. **A\*** also explored very few states (**63.00** mean nodes) with competitive speed.

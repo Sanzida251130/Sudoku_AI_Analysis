@@ -1,12 +1,21 @@
-# Solving Sudoku with A*, Hill Climbing, and Backtracking
+# 🧩 Solving Sudoku with A*, Hill Climbing, and Backtracking
 
-**Course:** Artificial Intelligence | **Dataset:** [Kaggle Sudoku (9 million puzzles)](https://www.kaggle.com/datasets/rohanrao/sudoku?select=sudoku.csv)
+**Course:** Artificial Intelligence Lab | **Dataset:** [Kaggle Sudoku (9 million puzzles)](https://www.kaggle.com/datasets/rohanrao/sudoku?select=sudoku.csv)
 
 An experimental comparison of classical AI search and constraint satisfaction algorithms applied to a sampled benchmark of 9×9 Sudoku puzzles. Every algorithm is evaluated on the exact same puzzles using **success rate**, **execution time**, and **search effort (nodes/states explored or evaluated)** across **Easy**, **Medium**, and **Hard** difficulty tiers.
 
 ---
 
-## Algorithms Compared
+## 🎓 Academic Context
+
+- **Course:** Artificial Intelligence Lab
+- **Project:** Sudoku Solver Using AI Search Algorithms
+
+> This project demonstrates the practical implementation and comparative analysis of informed search, local search, and constraint satisfaction techniques in Artificial Intelligence.
+
+---
+
+## 🧠 Algorithms Compared
 
 | Algorithm | Paradigm / Family | Core Strategy |
 |---|---|---|
@@ -17,20 +26,20 @@ An experimental comparison of classical AI search and constraint satisfaction al
 
 ---
 
-## Dataset & Experimental Setup
+## 📊 Dataset & Experimental Setup
 
 - **Source:** `sudoku.csv` from Kaggle (~9 million puzzle/solution pairs).
 - **Sampling & Difficulty Split:**
   - Streams a random **0.3%** sample (`KEEP = 0.003`, `random.Random(42)`) across the dataset, then draws **60 puzzles** (`N_PUZZLES = 60`, `random_state=42`).
   - Blank cells (`0` or `.` normalized to `0`) serve as the difficulty proxy, split into three equal groups of 20 puzzles each:
-    - **Easy:** 26–38 blanks (mean: 32.65)
-    - **Medium:** 38–43 blanks (mean: 40.70)
-    - **Hard:** 43–53 blanks (mean: 46.90)
+    - 🟢 **Easy:** 26–38 blanks (mean: 32.65)
+    - 🟡 **Medium:** 38–43 blanks (mean: 40.70)
+    - 🔴 **Hard:** 43–53 blanks (mean: 46.90)
 - **Validity Check:** A run is counted as **solved** only if the algorithm reports success, all given clues are preserved, and every row, column, and 3×3 box contains digits `1–9`.
 
 ---
 
-## Results Summary (60 Puzzles)
+## 📈 Results Summary (60 Puzzles)
 
 | Algorithm | Success Rate (%) | Mean Time (s) | Median Time (s) | Max Time (s) | Mean Nodes |
 |---|---:|---:|---:|---:|---:|
@@ -39,40 +48,41 @@ An experimental comparison of classical AI search and constraint satisfaction al
 | **A\*** | 100.0% | 0.0029 | 0.0017 | 0.0620 | 63.00 |
 | **Hill Climbing** | 25.0% | 0.0259 | 0.0291 | 0.0550 | 3,481.57 |
 
-### Overall Success Rate (Text View)
+### 🎯 Overall Success Rate (Text View)
 
 - **Backtracking:**       `██████████` 100.0%
 - **Backtracking + MRV:** `██████████` 100.0%
 - **A\*:**                `██████████` 100.0%
 - **Hill Climbing:**      `███░░░░░░░` 25.0%
 
-### Breakdown by Difficulty Tier (Easy / Medium / Hard)
 
-> *Note:* Exact per-tier metrics (`Easy`, `Medium`, and `Hard`—20 puzzles each) are generated when running the notebook cells. Fill in the values from your notebook output table below:
 
-| Difficulty Tier (Blanks) | Algorithm | Success Rate (%) | Mean Time (s) | Mean Nodes |
-|---|---|---|---|---:|
-| **Easy** (26–38 blanks) | Backtracking | — | — | — |
-| | Backtracking + MRV | — | — | — |
-| | A\* | — | — | — |
-| | Hill Climbing | — | — | — |
-| **Medium** (38–43 blanks) | Backtracking | — | — | — |
-| | Backtracking + MRV | — | — | — |
-| | A\* | — | — | — |
-| | Hill Climbing | — | — | — |
-| **Hard** (43–53 blanks) | Backtracking | — | — | — |
-| | Backtracking + MRV | — | — | — |
-| | A\* | — | — | — |
-| | Hill Climbing | — | — | — |
-
-### Key Takeaways
+### 💡 Key Takeaways
 - **100% Reliability with Systematic Search & CSP:** Plain Backtracking, Backtracking + MRV, and A\* all solved every puzzle in the sample within milliseconds.
 - **Much Lower Search Effort with MRV and A\*:** Adding the **MRV** heuristic reduced average explored assignments from **722.67** to **50.92** (~14× fewer nodes) and cut mean runtime nearly in half. **A\*** also explored very few states (**63.00** mean nodes) with competitive speed.
 - **Local Optima Limit Hill Climbing:** Greedy box-swap Hill Climbing (10 restarts, 300 steps per restart) achieved a **25.0%** success rate while evaluating far more candidate swaps (**3,481.57** mean nodes), illustrating how local search can get trapped in non-zero conflict local minima on structured constraint problems like Sudoku.
 
 ---
 
-## Getting Started
+## ⚠️ Limitations
+
+- **Local Optima in Hill Climbing:** Purely greedy local search struggles with tightly coupled row, column, and box constraints, frequently getting stuck in plateaus or local minima where no single intra-box swap reduces total conflicts.
+- **Memory Overhead in A\* Search:** Storing partial board states in the priority queue (`open_list`) increases memory consumption compared to depth-first backtracking, which can become a bottleneck on harder puzzles with deep branching.
+- **Simplified Difficulty Metric:** Difficulty tiers are estimated solely by the count of blank cells (`0`s), which does not always reflect logical solving complexity (e.g., puzzles requiring advanced human techniques like X-Wing or Swordfish vs. naked singles).
+- **Sample Size & Board Scale:** Benchmarks are evaluated on a 60-puzzle sample of standard 9×9 grids rather than larger generalizations (such as 16×16 or 25×25 Sudoku).
+
+---
+
+## 🚀 Future Implementation
+
+- **Advanced CSP Propagation:** Integrate **AC-3 (Arc Consistency)**, **Forward Checking**, **Degree Heuristic**, and **Least Constraining Value (LCV)** ordering to further prune search trees before branching.
+- **Metaheuristics for Local Search:** Upgrade Hill Climbing with **Simulated Annealing**, **Tabu Search**, or **Genetic Algorithms** to allow controlled uphill moves and escape local minima.
+- **Exact Cover Formulation:** Implement **Donald Knuth's Algorithm X with Dancing Links (DLX)** as an ultra-fast exact-cover baseline.
+- **Interactive Web/GUI Visualizer:** Build an interactive step-by-step solver interface to visually animate cell assignments, backtracking steps, and conflict heatmaps in real time.
+
+---
+
+## 🛠️ Getting Started
 
 1. **Clone the repository** and open the Jupyter/Colab notebook.
 2. **Download the dataset:** Obtain `sudoku.csv` from [Kaggle Sudoku](https://www.kaggle.com/datasets/rohanrao/sudoku?select=sudoku.csv) and place it in the **same directory** as the notebook.
